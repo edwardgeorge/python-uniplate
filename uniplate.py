@@ -1,5 +1,9 @@
 from collections import deque
-from functools import partial, singledispatch
+from functools import partial
+try:
+    from functools import singledispatch
+except ImportError:
+    from singledispatch import singledispatch
 
 # generic functions on a piece of data:
 # > transform((1, (2, {'foo': 3, 'bar': 'hello'})), mktrans(int, lambda i: i * 2))
