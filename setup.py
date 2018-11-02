@@ -3,7 +3,7 @@ import sys
 
 setuptools.setup(
     name='uniplate',
-    version='0.0.2',
+    version='0.0.3',
     description='Python generics library using combinators from haskell\'s uniplate',
     author='Edward George',
     author_email='edwardgeorge@gmail.com',

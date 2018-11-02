@@ -76,6 +76,12 @@ def abstract_transform(descend, inp, trans):
 def abstract_transformtd(descend, inp, trans):
     return descend(trans(inp), lambda i: abstract_transformtd(descend, i, trans))
 
+# top-down then bottom-up in one transform
+def abstract_transformtdbu(descend, inp, trans_td, trans_bu):
+    return trans_bu(descend(
+        trans_td(inp),
+        lambda i: abstract_transformtdbu(descend, i, trans_td, trans_bu)))
+
 def abstract_children(descend, inp):
     results = deque()
     def collector(i):
@@ -104,6 +110,14 @@ transformtd = partial(abstract_transformtd, descend)
 transformtd.__doc__ = """ Top-down transformation of data structure.
 
     Takes a function that transforms a single layer.
+
+    """
+transformtdbu = partial(abstract_transformtdbu, descend)
+transformtd.__doc__ = """ Top-down then bottom-up transformation of data structure in single pass.
+
+    Takes two functions that both transforms a single layer.
+    The first function is applied when traversing down into the structure
+    and the second is applied bottom-up as the stack unwinds.
 
     """
 children = partial(abstract_children, descend)
